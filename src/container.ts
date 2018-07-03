@@ -5,7 +5,7 @@ import {
 import { DIError, createError } from './errors';
 import { ClassActivator } from './activators';
 import { Resolver } from './resolvers';
-
+import { factory } from './decorators';
 
 var counter = 0;
 function genid() {
@@ -265,19 +265,21 @@ export class Container implements IActivator, IContainer, IDependencyResolver {
     }
 
     public registerInstance(key: any, instance: any) {
-        //debug("%s: Register instance %s", this.id, key);
         return this.registerHandler(key, _ => instance);
     }
 
     public registerTransient(key: any, fn: Function, targetKey?: string) {
-        //debug("%s: Register transient %s", this.id, key);
         return this.registerHandler(key, x => x.invoke(fn, void 0, targetKey))
     }
 
     public registerSingleton(key: any, fn: Function, targetKey?: string) {
-        //debug("%s: Register singleton %s", this.id, key);
         var singleton: any;
         return this.registerHandler(key, x => singleton || (singleton = x.invoke(fn, void 0, targetKey)))
+    }
+
+    public registerFactory(key: any, fn: Function, targetKey?: string) {
+        factory()(fn)
+        return this.registerTransient(key, fn, targetKey);
     }
 
     public registerHandler(key: any, handler: IHandlerFunc) {

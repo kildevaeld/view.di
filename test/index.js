@@ -72,8 +72,8 @@ describe('container', () => {
         });
 
         const test = container.get("factory");
-        console.log(test)
 
+        test.should.equal("Hello, World");
 
     });
 

@@ -85,10 +85,11 @@ export declare class Container implements IActivator, IContainer, IDependencyRes
     registerInstance(key: any, instance: any): this;
     registerTransient(key: any, fn: Function, targetKey?: string): this;
     registerSingleton(key: any, fn: Function, targetKey?: string): this;
+    registerFactory(key: any, fn: Function, targetKey?: string): this;
     registerHandler(key: any, handler: IHandlerFunc): this;
     protected _getOrCreateEntry(key: string): IHandlerFunc[];
     protected _getOrCreateConstructionSet(fn: Function, targetKey?: string): ConstructionInfo;
-    private _createConstructionSet(fn, targetKey?);
+    private _createConstructionSet;
 }
 export declare function makeGlobal(container: Container): void;
 export declare function global(): Container;

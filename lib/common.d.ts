@@ -31,4 +31,5 @@ export interface IContainer {
     registerTransient(key: any, fn: Function, targetKey?: string): this;
     registerSingleton(key: any, fn: Function, targetKey?: string): this;
     registerInstance(key: any, instance: any): this;
+    registerHandler(key: any, handler: IHandlerFunc): this;
 }
