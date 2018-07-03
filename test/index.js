@@ -40,7 +40,7 @@ describe('container', () => {
 
         container.registerTransient("transient", Test);
 
-        const test = container.get(Test);
+        const test = container.get("transient");
         test.should.be.instanceOf(Test);
         should.equal(1, test.id);
         should.equal(2, container.get('transient').id);

@@ -89,7 +89,7 @@ export declare class Container implements IActivator, IContainer, IDependencyRes
     registerHandler(key: any, handler: IHandlerFunc): this;
     protected _getOrCreateEntry(key: string): IHandlerFunc[];
     protected _getOrCreateConstructionSet(fn: Function, targetKey?: string): ConstructionInfo;
-    private _createConstructionSet;
+    private _createConstructionSet(fn, targetKey?);
 }
 export declare function makeGlobal(container: Container): void;
 export declare function global(): Container;
