@@ -668,7 +668,7 @@ function () {
   _createClass(Container, [{
     key: "makeGlobal",
     value: function makeGlobal() {
-      
+      _makeGlobal(this);
     }
     /**
     * Inspects the container to determine if a particular key has been registred.
@@ -998,10 +998,24 @@ function () {
   return Container;
 }();
 
-exports.Container = Container;
+var _global;
+
+function _makeGlobal(container) {
+  _global = container;
+}
+
+function global() {
+  if (!_global) _global = new Container();
+  return _global;
+}
+
+exports.makeGlobal = _makeGlobal;
+exports.global = global;
 exports.DIBadKeyError = DIBadKeyError;
-exports.DIAggregateError = DIAggregateError;
+exports.Container = Container;
+exports.createError = createError;
 exports.DIError = DIError;
+exports.DIAggregateError = DIAggregateError;
 exports.autoinject = autoinject;
 exports.inject = inject;
 exports.registration = registration;
