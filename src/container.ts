@@ -62,6 +62,7 @@ export class Container implements IActivator, IContainer, IDependencyResolver {
             throw new DIBadKeyError();
         }
 
+
         return !!(this.entries.has(key)
             || (checkParent && this.parent && this.parent.hasHandler(key, checkParent)));
     }
