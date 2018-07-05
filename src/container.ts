@@ -2,7 +2,7 @@ import {
     IHandlerFunc, IActivator, IDependencyResolver, MetaKeys,
     IContainer, getFunctionParameters, emptyParameters,
 } from './common';
-import { DIError, createError } from './errors';
+import { DIError, createError, DIBadKeyError } from './errors';
 import { ClassActivator } from './activators';
 import { Resolver } from './resolvers';
 import { factory } from './decorators';
@@ -19,13 +19,7 @@ export interface ConstructionInfo {
 }
 
 
-export class DIBadKeyError extends DIError {
-    name = 'BadKeyError'
-    message = "key not registered with container"
-    constructor(message?: string) {
-        super(message);
-    }
-}
+
 
 export class Container implements IActivator, IContainer, IDependencyResolver {
 
@@ -194,8 +188,7 @@ export class Container implements IActivator, IContainer, IDependencyResolver {
     * @return {Container} Returns a new container instance parented to this.
     */
     createChild(): IContainer {
-        let childContainer = new Container(this.constructionInfo, this);
-        //debug("%s: Create child container: %s", this.id, childContainer.id);
+        const childContainer = Reflect.construct(this.constructor, [this.constructionInfo, this]);
         return childContainer;
     }
 

@@ -1,14 +1,8 @@
 import { IHandlerFunc, IActivator, IDependencyResolver, IContainer } from './common';
-import { DIError } from './errors';
 export interface ConstructionInfo {
     activator: IActivator;
     keys?: string[];
     dependencyResolver?: IDependencyResolver;
-}
-export declare class DIBadKeyError extends DIError {
-    name: string;
-    message: string;
-    constructor(message?: string);
 }
 export declare class Container implements IActivator, IContainer, IDependencyResolver {
     private entries;
@@ -89,7 +83,7 @@ export declare class Container implements IActivator, IContainer, IDependencyRes
     registerHandler(key: any, handler: IHandlerFunc): this;
     protected _getOrCreateEntry(key: string): IHandlerFunc[];
     protected _getOrCreateConstructionSet(fn: Function, targetKey?: string): ConstructionInfo;
-    private _createConstructionSet(fn, targetKey?);
+    private _createConstructionSet;
 }
 export declare function makeGlobal(container: Container): void;
 export declare function global(): Container;

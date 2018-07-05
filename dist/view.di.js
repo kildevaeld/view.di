@@ -174,6 +174,26 @@ function (_DIError) {
   return DIAggregateError;
 }(DIError);
 
+var DIBadKeyError =
+/*#__PURE__*/
+function (_DIError2) {
+  _inherits(DIBadKeyError, _DIError2);
+
+  function DIBadKeyError(message) {
+    var _this3;
+
+    _classCallCheck(this, DIBadKeyError);
+
+    _this3 = _possibleConstructorReturn(this, (DIBadKeyError.__proto__ || Object.getPrototypeOf(DIBadKeyError)).call(this, message));
+    _this3.name = 'BadKeyError';
+    _this3.message = "key not registered with container";
+    Object.setPrototypeOf(_this3, (this instanceof DIBadKeyError ? this.constructor : void 0).prototype);
+    return _this3;
+  }
+
+  return DIBadKeyError;
+}(DIError);
+
 function createError(name, message, error) {
   var e;
 
@@ -598,7 +618,7 @@ function inject() {
   }
 
   return function (target) {
-    target.inject = rest;
+    if (rest.length === 1 && typeof rest[0] === 'string') target.inject = rest[0];else target.inject = rest;
   };
 }
 function registration(value, targetKey) {
@@ -633,25 +653,6 @@ var counter = 0;
 function genid() {
   return ++counter + "";
 }
-
-var DIBadKeyError =
-/*#__PURE__*/
-function (_DIError) {
-  _inherits(DIBadKeyError, _DIError);
-
-  function DIBadKeyError(message) {
-    var _this;
-
-    _classCallCheck(this, DIBadKeyError);
-
-    _this = _possibleConstructorReturn(this, (DIBadKeyError.__proto__ || Object.getPrototypeOf(DIBadKeyError)).call(this, message));
-    _this.name = 'BadKeyError';
-    _this.message = "key not registered with container";
-    return _this;
-  }
-
-  return DIBadKeyError;
-}(DIError);
 
 var Container =
 /*#__PURE__*/
@@ -791,7 +792,7 @@ function () {
   }, {
     key: "getAll",
     value: function getAll(key) {
-      var _this2 = this;
+      var _this = this;
 
       var entry;
 
@@ -803,7 +804,7 @@ function () {
 
       if (entry !== undefined) {
         return entry.map(function (x) {
-          return x(_this2);
+          return x(_this);
         });
       }
 
@@ -823,8 +824,7 @@ function () {
   }, {
     key: "createChild",
     value: function createChild() {
-      var childContainer = new Container(this.constructionInfo, this); //debug("%s: Create child container: %s", this.id, childContainer.id);
-
+      var childContainer = Reflect.construct(this.constructor, [this.constructionInfo, this]);
       return childContainer;
     }
     /**
@@ -1011,11 +1011,11 @@ function global() {
 
 exports.makeGlobal = _makeGlobal;
 exports.global = global;
-exports.DIBadKeyError = DIBadKeyError;
 exports.Container = Container;
 exports.createError = createError;
 exports.DIError = DIError;
 exports.DIAggregateError = DIAggregateError;
+exports.DIBadKeyError = DIBadKeyError;
 exports.autoinject = autoinject;
 exports.inject = inject;
 exports.registration = registration;

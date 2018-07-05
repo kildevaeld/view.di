@@ -9,4 +9,9 @@ export declare class DIAggregateError extends DIError {
     readonly inner: Error;
     toString(): string;
 }
+export declare class DIBadKeyError extends DIError {
+    name: string;
+    message: string;
+    constructor(message?: string);
+}
 export declare function createError(name: string, message: string, error?: Error): Error;

@@ -13,7 +13,10 @@ export function autoinject(target: any) {
 
 export function inject(...rest: any[]) {
     return function (target: any) {
-        target.inject = rest;
+        if (rest.length === 1 && typeof rest[0] === 'string')
+            target.inject = rest[0];
+        else
+            target.inject = rest;
     }
 }
 

@@ -37,6 +37,16 @@ export class DIAggregateError extends DIError {
 }
 
 
+export class DIBadKeyError extends DIError {
+	name = 'BadKeyError'
+	message = "key not registered with container"
+	constructor(message?: string) {
+		super(message);
+		Object.setPrototypeOf(this, new.target.prototype);
+	}
+}
+
+
 
 export function createError(name: string, message: string, error?: Error): Error {
 	let e;
